@@ -1,115 +1,362 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ASTITAW SINGH | Learn Kali Linux & Hacking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CyberClassroom - Kali Linux Tutorials</title>
+
+  <meta name="description" content="CyberClassroom offers Kali Linux tutorials, tools, and APKs for ethical hacking and penetration testing.">
+  <meta name="keywords" content="Kali Linux, Tutorials, Hacking, Ethical Hacking, Tools, APKs, Cybersecurity, Linux Training">
+  <meta name="author" content="CyberClassroom">
+
+  <meta property="og:title" content="CyberClassroom - Kali Linux Tutorials" />
+  <meta property="og:description" content="Master Kali Linux with hands-on tutorials, tools, and resources." />
+  <meta property="og:image" content="121.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+  <link rel="icon" href="121.png" type="image/png" />
+
   <style>
+    :root {
+      --bg-color: #0d1117;
+      --text-color: #e0e0e0;
+      --accent-color: #58a6ff;
+      --card-bg: #161b22;
+      --border-color: #30363d;
+      --btn-bg: #161b22;
+      --btn-hover-bg: #21262d;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #ffffff;
+      --text-color: #1c1c1c;
+      --accent-color: #005ecb;
+      --card-bg: #f5f5f5;
+      --border-color: #cccccc;
+      --btn-bg: #e0e0e0;
+      --btn-hover-bg: #d0d0d0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0d1117;
-      color: #c9d1d9;
-    }
-    header {
-      background-color: #161b22;
-      padding: 20px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      color: #58a6ff;
-    }
-    nav {
-      background-color: #21262d;
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      padding: 10px;
-    }
-    nav a {
-      color: #8b949e;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s ease;
-    }
-    nav a:hover {
-      color: #58a6ff;
-    }
-    section {
+      font-family: 'Fira Code', monospace;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
       padding: 40px 20px;
-      max-width: 900px;
-      margin: auto;
+      overflow-x: hidden;
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+      position: relative;
+      z-index: 1;
     }
-    h2 {
-      color: #58a6ff;
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
-    footer {
-      background-color: #161b22;
+
+    /* Background Image */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 800px;
+      height: 800px;
+      background: url('121.png') no-repeat center center;
+      background-size: contain;
+      opacity: 0.15;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
+      filter: drop-shadow(0 0 30px rgba(88, 166, 255, 0.3)) blur(1px);
+    }
+
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 6px solid rgba(88, 166, 255, 0.3);
+      border-top: 6px solid rgba(88, 166, 255, 0.9);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      color: var(--text-color);
+    }
+
+    .theme-toggle svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    header {
       text-align: center;
-      padding: 15px;
-      font-size: 14px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      color: var(--accent-color);
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 1.2rem;
       color: #8b949e;
     }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    section {
+      margin-bottom: 50px;
+    }
+
+    section h2 {
+      font-size: 1.8rem;
+      border-bottom: 2px solid var(--border-color);
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      color: var(--accent-color);
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      background-color: var(--btn-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-color);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover-bg);
+      transform: scale(1.05);
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      box-shadow: 0 0 15px var(--accent-color);
+    }
+
+    .downloads {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
     .card {
-      background-color: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 8px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
       padding: 20px;
-      margin: 20px 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .card h3 {
+      color: var(--accent-color);
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: var(--text-color);
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .card a {
+      text-decoration: none;
+      padding: 12px 18px;
+      background-color: var(--btn-hover-bg);
+      color: var(--accent-color);
+      border: 1px solid var(--border-color);
+      text-align: center;
+      border-radius: 5px;
+      transition: all 0.2s ease;
+      font-weight: 600;
+      display: block;
+    }
+
+    .card a:hover {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+      color: #fff;
+      box-shadow: 0 0 12px var(--accent-color);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #6e7681;
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid #21262d;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 600px) {
+      .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>CyberClassroom</h1>
-    <p>Learn Ethical Hacking, Kali Linux & More</p>
-  </header>
+<!-- Preloader -->
+<div id="preloader">
+  <div class="spinner"></div>
+</div>
 
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#tutorials">Tutorials</a>
-    <a href="#contact">Contact</a>
-  </nav>
+<!-- Theme Toggle Icon -->
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <svg id="theme-icon" viewBox="0 0 24 24"></svg>
+</button>
 
-  <section id="home">
-    <h2>Welcome to CyberClassroom</h2>
-    <p>CyberClassroom is your go-to platform to learn Kali Linux, basic hacking techniques, ethical hacking, penetration testing tools, and cybersecurity fundamentals — all for free!</p>
+<header class="fade-in">
+  <h1>CyberClassroom</h1>
+  <p>Kali Linux Tutorials, Tools, and Resources</p>
+</header>
+
+<main>
+  <section class="fade-in">
+    <h2>Tutorial Videos</h2>
+    <div class="button-group fade-in">
+      <button class="btn" onclick="window.location.href='video1.html'">Kali Linux Basics</button>
+      <button class="btn" onclick="window.location.href='video2.html'">Command Line Usage</button>
+      <button class="btn" onclick="window.location.href='video3.html'">Ethical Hacking Setup</button>
+    </div>
   </section>
 
-  <section id="tutorials">
-    <h2>Tutorials</h2>
-
-    <div class="card">
-      <h3>🔧 Installing Kali Linux on VirtualBox</h3>
-      <p>A beginner-friendly guide to set up Kali Linux on your system using VirtualBox.</p>
-      <a href="#">Read Tutorial →</a>
+  <section class="fade-in">
+    <h2>Security Tools & APKs</h2>
+    <div class="downloads fade-in">
+      <div class="card">
+        <h3>WiFi Cracker Pro</h3>
+        <p>Advanced WiFi penetration testing software for Kali Linux.</p>
+        <a href="downloads/wifi-cracker.zip" download>Download</a>
+      </div>
+      <div class="card">
+        <h3>NetScanner APK</h3>
+        <p>Android network scanning APK to find devices and open ports.</p>
+        <a href="downloads/netscanner.apk" download>Download</a>
+      </div>
+      <div class="card">
+        <h3>Password Recovery Suite</h3>
+        <p>Recover lost passwords from ZIP, RAR, or document files.</p>
+        <a href="downloads/pass-recovery.zip" download>Download</a>
+      </div>
     </div>
-
-    <div class="card">
-      <h3>📁 Top 10 Linux Commands Every Hacker Should Know</h3>
-      <p>Master the command line with essential Linux commands for ethical hacking.</p>
-      <a href="#">Read Tutorial →</a>
-    </div>
-
-    <div class="card">
-      <h3>🧠 What is Ethical Hacking?</h3>
-      <p>Learn the basics of white-hat hacking and how to start your ethical hacking journey.</p>
-      <a href="#">Read Tutorial →</a>
-    </div>
-
   </section>
+</main>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Have questions or suggestions?</p>
-    <p>Email us at: <strong>cyberclassroom@protonmail.com</strong></p>
-  </section>
+<footer class="fade-in">
+  &copy; 2025 CyberClassroom. Kali Linux Tutorials Hub.
+</footer>
 
-  <footer>
-    &copy; 2025 CyberClassroom. All rights reserved.
-  </footer>
+<script>
+  window.addEventListener('load', () => {
+    document.getElementById("preloader").style.display = "none";
+    document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+  });
 
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.fade-in').forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+        el.classList.add('visible');
+      }
+    });
+  });
+
+  const icon = document.getElementById("theme-icon");
+
+  function updateThemeIcon(theme) {
+    icon.innerHTML = theme === "light"
+      ? `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>`
+      : `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>`;
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute("data-theme");
+    const next = current === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+    updateThemeIcon(next);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const saved = localStorage.getItem("theme") || "dark";
+    document.documentElement.setAttribute("data-theme", saved);
+    updateThemeIcon(saved);
+  });
+</script>
 </body>
 </html>
