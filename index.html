@@ -68,7 +68,6 @@
       }
     }
 
-    /* Background Image */
     body::before {
       content: "";
       position: fixed;
@@ -196,6 +195,7 @@
       transition: all 0.2s ease;
       user-select: none;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+      text-decoration: none;
     }
 
     .btn:hover {
@@ -249,6 +249,56 @@
       border-color: var(--accent-color);
       color: #fff;
       box-shadow: 0 0 12px var(--accent-color);
+    }
+
+    /* Contact Us Icons */
+    .social-icons {
+      display: flex;
+      gap: 25px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      padding: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-color: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .icon img {
+      width: 32px;
+      height: 32px;
+      filter: brightness(1.2);
+    }
+
+    .icon:hover {
+      transform: scale(1.15);
+      box-shadow: 0 0 20px rgba(88, 166, 255, 0.6);
+    }
+
+    .instagram:hover {
+      background: radial-gradient(circle at 30% 30%, #feda75, #d62976, #962fbf, #4f5bd5);
+    }
+
+    .telegram:hover {
+      background-color: #229ED9;
+    }
+
+    .email:hover {
+      background-color: #D44638;
+    }
+
+    .whatsapp:hover {
+      background-color: #25D366;
     }
 
     footer {
@@ -314,6 +364,25 @@
         <p>Recover lost passwords from ZIP, RAR, or document files.</p>
         <a href="downloads/pass-recovery.zip" download>Download</a>
       </div>
+    </div>
+  </section>
+
+  <!-- Contact Us Section -->
+  <section class="fade-in">
+    <h2>Contact Us</h2>
+    <div class="social-icons">
+      <a href="https://instagram.com/__mr.singh__17" target="_blank" rel="noopener noreferrer" class="icon instagram" title="Instagram">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
+      </a>
+      <a href="https://t.me/In_e_stable" target="_blank" rel="noopener noreferrer" class="icon telegram" title="Telegram">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram">
+      </a>
+      <a href="mailto:techwithharsh5124@gmail.com" class="icon email" title="Email">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email">
+      </a>
+      <a href="https://wa.me/+917844990650" target="_blank" rel="noopener noreferrer" class="icon whatsapp" title="WhatsApp">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
+      </a>
     </div>
   </section>
 </main>
