@@ -235,6 +235,11 @@
       z-index: 1;
     }
 
+    /* Utterances container style */
+    #utterances-container {
+      margin-top: 50px;
+    }
+
     @media (max-width: 600px) {
       .btn {
         width: 100%;
@@ -270,6 +275,8 @@
           allowfullscreen
         ></iframe>
       </div>
+      <!-- Utterances comments container -->
+      <section id="utterances-container"></section>
       <a href="../index.html" class="btn fade-in">← Back to Home</a>
     </section>
   </main>
@@ -313,6 +320,39 @@
       document.documentElement.setAttribute("data-theme", saved);
       updateThemeIcon(saved);
     });
+
+    // Utterances comments script
+    const utterancesContainer = document.getElementById('utterances-container');
+    const script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.setAttribute('repo', 'CyberClassroom/cyberclassroom.github.io');
+    script.setAttribute('issue-term', 'title');
+    script.setAttribute('theme', document.documentElement.getAttribute('data-theme') === 'light' ? 'github-light' : 'github-dark');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    utterancesContainer.appendChild(script);
+
+    // Listen for theme changes to update Utterances theme
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      updateUtterancesTheme();
+    });
+
+    function updateUtterancesTheme() {
+      const iframe = utterancesContainer.querySelector('iframe');
+      if (!iframe) return;
+      const message = {
+        type: 'set-theme',
+        theme: document.documentElement.getAttribute('data-theme') === 'light' ? 'github-light' : 'github-dark'
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+
+    // Update Utterances theme on toggleTheme call
+    const originalToggleTheme = toggleTheme;
+    toggleTheme = function() {
+      originalToggleTheme();
+      setTimeout(updateUtterancesTheme, 300);
+    }
   </script>
 </body>
 </html>
