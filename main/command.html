@@ -249,6 +249,13 @@
       fill: currentColor;
     }
 
+    /* Utterances container styling */
+    #utterances-container {
+      width: 100%;
+      max-width: 900px;
+      margin-top: 48px;
+    }
+
     /* Responsive */
     @media (max-width: 640px) {
       main {
@@ -288,7 +295,7 @@
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
       loading="lazy"
-      ></iframe>
+    ></iframe>
   </div>
   <h2 class="video-title" id="video-title">COMMANDS FOR TEXT FILE IN LINUX</h2>
 
@@ -306,6 +313,9 @@
       <div class="card-title">COMMANDS RELATED TO USERS AND GROUPS</div>
     </div>
   </nav>
+
+  <!-- Utterances comments container -->
+  <div id="utterances-container"></div>
 </main>
 
 <a href="../index.html" class="btn-back" aria-label="Back to Home">← Back to Home</a>
@@ -347,6 +357,7 @@
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
     setThemeIcon(next);
+    updateUtterancesTheme();
   }
 
   themeToggleBtn.addEventListener('click', toggleTheme);
@@ -394,6 +405,37 @@
     // Scroll the selected card into view smoothly
     card.scrollIntoView({ behavior: 'smooth', inline: 'center' });
   }
+
+  // Utterances comments integration
+  const utterancesContainer = document.getElementById('utterances-container');
+
+  function createUtterances(theme) {
+    const script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.setAttribute('repo', 'CyberClassroom/cyberclassroom.github.io');
+    script.setAttribute('issue-term', 'title');
+    script.setAttribute('theme', theme === 'light' ? 'github-light' : 'github-dark');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    utterancesContainer.innerHTML = '';
+    utterancesContainer.appendChild(script);
+  }
+
+  function updateUtterancesTheme() {
+    const iframe = utterancesContainer.querySelector('iframe');
+    if (!iframe) return;
+    const message = {
+      type: 'set-theme',
+      theme: document.documentElement.getAttribute('data-theme') === 'light' ? 'github-light' : 'github-dark'
+    };
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+
+  // Initialize Utterances on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    createUtterances(currentTheme);
+  });
 </script>
 
 </body>
