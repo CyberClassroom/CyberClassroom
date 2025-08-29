@@ -18,8 +18,9 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       min-height:100vh;
-      padding:40px 20px;
+      padding: 40px 20px 40px 100px; /* Left padding added for buttons */
       transition:background-color 0.4s, color 0.4s;
+      position: relative;
     }
     header { text-align:center; margin-bottom:30px; }
     header h1 {
@@ -80,12 +81,61 @@
     .playlist-desc {
       font-size:0.85rem; color:#8b949e;
     }
+
+    /* Back to Home Buttons */
+    .back-home-btn {
+      position: fixed;
+      left: 20px;
+      background: rgba(40, 44, 52, 0.75);
+      backdrop-filter: blur(6px);
+      border: 1.5px solid var(--accent-color);
+      color: var(--accent-color);
+      padding: 8px 12px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(88, 166, 255, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      max-width: 140px;
+      white-space: nowrap;
+      user-select: none;
+      z-index: 9999;
+    }
+    .back-home-btn.show {
+      opacity: 0.85;
+      pointer-events: auto;
+    }
+    .back-home-btn:hover,
+    .back-home-btn:focus-visible {
+      opacity: 1;
+      box-shadow: 0 0 20px var(--accent-color);
+      outline: none;
+    }
+    .back-home-top {
+      top: 20px;
+    }
+    .back-home-bottom {
+      bottom: 20px;
+    }
+
     @media(max-width:600px) {
       .playlist-item {
         flex-direction:column; align-items:flex-start;
       }
       .playlist-item img {
         width:100%; height:auto; margin-bottom:8px;
+      }
+      body {
+        padding-left: 70px; /* smaller padding on small screens */
+      }
+      .back-home-btn {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+        max-width: 110px;
       }
     }
   </style>
@@ -119,6 +169,10 @@
       <div id="playlist" class="playlist"></div>
     </section>
   </main>
+
+  <!-- Back to Home Buttons -->
+  <button class="back-home-btn back-home-top" aria-label="Back to Home Top" onclick="goHome()">Back to Home</button>
+  <button class="back-home-btn back-home-bottom" aria-label="Back to Home Bottom" onclick="goHome()">Back to Home</button>
 
   <script>
     const videos = [
@@ -183,6 +237,39 @@
     }
 
     renderPlaylist();
+
+    // Back to Home button logic
+
+    const backTopBtn = document.querySelector('.back-home-top');
+    const backBottomBtn = document.querySelector('.back-home-bottom');
+
+    function goHome() {
+      // Adjust this to your home page URL or relative path
+      window.location.href = 'index.html';
+    }
+
+    function checkScroll() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+
+      // Show top button only when at very top
+      if (scrollTop === 0) {
+        backTopBtn.classList.add('show');
+      } else {
+        backTopBtn.classList.remove('show');
+      }
+
+      // Show bottom button only when scrolled to bottom (allow 5px tolerance)
+      if (scrollTop + clientHeight >= scrollHeight - 5) {
+        backBottomBtn.classList.add('show');
+      } else {
+        backBottomBtn.classList.remove('show');
+      }
+    }
+
+    window.addEventListener('scroll', checkScroll);
+    window.addEventListener('load', checkScroll);
   </script>
 </body>
 </html>
