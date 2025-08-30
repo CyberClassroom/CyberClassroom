@@ -63,9 +63,7 @@
     }
 
     @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+      to { opacity: 1; }
     }
 
     body::before {
@@ -107,9 +105,7 @@
     }
 
     @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
+      to { transform: rotate(360deg); }
     }
 
     .fade-in {
@@ -123,10 +119,16 @@
       transform: translateY(0);
     }
 
-    .theme-toggle {
+    .top-buttons {
       position: absolute;
       top: 20px;
       right: 20px;
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .theme-toggle, .search-toggle {
       background: none;
       border: none;
       cursor: pointer;
@@ -135,7 +137,7 @@
       color: var(--text-color);
     }
 
-    .theme-toggle svg {
+    .theme-toggle svg, .search-toggle svg {
       width: 100%;
       height: 100%;
       fill: currentColor;
@@ -251,7 +253,6 @@
       box-shadow: 0 0 12px var(--accent-color);
     }
 
-    /* Contact Us Icons */
     .social-icons {
       display: flex;
       gap: 25px;
@@ -285,21 +286,10 @@
       box-shadow: 0 0 20px rgba(88, 166, 255, 0.6);
     }
 
-    .instagram:hover {
-      background: radial-gradient(circle at 30% 30%, #feda75, #d62976, #962fbf, #4f5bd5);
-    }
-
-    .telegram:hover {
-      background-color: #229ED9;
-    }
-
-    .email:hover {
-      background-color: #D44638;
-    }
-
-    .whatsapp:hover {
-      background-color: #25D366;
-    }
+    .instagram:hover { background: radial-gradient(circle at 30% 30%, #feda75, #d62976, #962fbf, #4f5bd5); }
+    .telegram:hover { background-color: #229ED9; }
+    .email:hover { background-color: #D44638; }
+    .whatsapp:hover { background-color: #25D366; }
 
     footer {
       text-align: center;
@@ -316,6 +306,51 @@
       .btn {
         width: 100%;
       }
+      .top-buttons {
+        flex-direction: row;
+        gap: 8px;
+      }
+    }
+
+    /* Search Modal */
+    .search-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+
+    .search-box {
+      background-color: var(--card-bg);
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 15px;
+      font-size: 1rem;
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      background-color: var(--btn-bg);
+      color: var(--text-color);
+    }
+
+    .close-search {
+      margin-top: 15px;
+      display: block;
+      text-align: right;
+      color: var(--accent-color);
+      cursor: pointer;
     }
   </style>
 </head>
@@ -326,11 +361,17 @@
   <div class="spinner"></div>
 </div>
 
-<!-- Theme Toggle Icon -->
-<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-  <svg id="theme-icon" viewBox="0 0 24 24"></svg>
-</button>
+<!-- Theme & Search Buttons -->
+<div class="top-buttons">
+  <button class="search-toggle" onclick="openSearch()" aria-label="Search">
+    <svg viewBox="0 0 24 24"><path d="M10 2a8 8 0 015.29 13.71l4 4a1 1 0 01-1.42 1.42l-4-4A8 8 0 1110 2zm0 2a6 6 0 100 12 6 6 0 000-12z"/></svg>
+  </button>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+    <svg id="theme-icon" viewBox="0 0 24 24"></svg>
+  </button>
+</div>
 
+<!-- Header -->
 <header class="fade-in">
   <h1>CyberClassroom</h1>
   <p>Kali Linux Tutorials, Tools, and Resources</p>
@@ -339,16 +380,16 @@
 <main>
   <section class="fade-in">
     <h2>Tutorial Videos</h2>
-    <div class="button-group fade-in">
-      <button class="btn" onclick="window.location.href='/main/setup.html'">Kali Linux Setup</button>
-      <button class="btn" onclick="window.location.href='/main/basics.html'">Kali Linux Basics</button>
-      <button class="btn" onclick="window.location.href='/main/command.html'">Command Line Usage</button>
+    <div class="button-group fade-in" id="tutorials">
+      <button class="btn">Kali Linux Setup</button>
+      <button class="btn">Kali Linux Basics</button>
+      <button class="btn">Command Line Usage</button>
     </div>
   </section>
 
   <section class="fade-in">
     <h2>Security Tools & APKs</h2>
-    <div class="downloads fade-in">
+    <div class="downloads fade-in" id="apps">
       <div class="card">
         <h3>WiFi Cracker Pro</h3>
         <p>Advanced WiFi penetration testing software for Kali Linux.</p>
@@ -367,22 +408,13 @@
     </div>
   </section>
 
-  <!-- Contact Us Section -->
   <section class="fade-in">
     <h2>Contact Us</h2>
     <div class="social-icons">
-      <a href="https://instagram.com/your_handle" target="_blank" rel="noopener noreferrer" class="icon instagram" title="Instagram">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
-      </a>
-      <a href="https://t.me/yourusername" target="_blank" rel="noopener noreferrer" class="icon telegram" title="Telegram">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram">
-      </a>
-      <a href="mailto:techwithharsh5124@gmail.com" class="icon email" title="Email">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email">
-      </a>
-      <a href="https://wa.me/+917844990650" target="_blank" rel="noopener noreferrer" class="icon whatsapp" title="WhatsApp">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
-      </a>
+      <a href="https://instagram.com/your_handle" target="_blank" class="icon instagram"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram"></a>
+      <a href="https://t.me/yourusername" target="_blank" class="icon telegram"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram"></a>
+      <a href="mailto:techwithharsh5124@gmail.com" class="icon email"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email"></a>
+      <a href="https://wa.me/+917844990650" target="_blank" class="icon whatsapp"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp"></a>
     </div>
   </section>
 </main>
@@ -391,27 +423,19 @@
   &copy; 2025 CyberClassroom. Kali Linux Tutorials Hub.
 </footer>
 
+<!-- Search Modal -->
+<div class="search-modal" id="searchModal">
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search Tutorials or Tools..." oninput="searchContent()" />
+    <span class="close-search" onclick="closeSearch()">Close</span>
+  </div>
+</div>
+
 <script>
   window.addEventListener('load', () => {
     document.getElementById("preloader").style.display = "none";
     document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
   });
-
-  window.addEventListener('scroll', () => {
-    document.querySelectorAll('.fade-in').forEach(el => {
-      if (el.getBoundingClientRect().top < window.innerHeight - 100) {
-        el.classList.add('visible');
-      }
-    });
-  });
-
-  const icon = document.getElementById("theme-icon");
-
-  function updateThemeIcon(theme) {
-    icon.innerHTML = theme === "light"
-      ? `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>`
-      : `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>`;
-  }
 
   function toggleTheme() {
     const current = document.documentElement.getAttribute("data-theme");
@@ -421,11 +445,45 @@
     updateThemeIcon(next);
   }
 
+  function updateThemeIcon(theme) {
+    const icon = document.getElementById("theme-icon");
+    icon.innerHTML = theme === "light"
+      ? `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>`
+      : `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>`;
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     const saved = localStorage.getItem("theme") || "dark";
     document.documentElement.setAttribute("data-theme", saved);
     updateThemeIcon(saved);
   });
+
+  function openSearch() {
+    document.getElementById("searchModal").style.display = "flex";
+    document.getElementById("searchInput").focus();
+  }
+
+  function closeSearch() {
+    document.getElementById("searchModal").style.display = "none";
+    document.getElementById("searchInput").value = '';
+    searchContent(); // reset
+  }
+
+  function searchContent() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    const buttons = document.querySelectorAll("#tutorials .btn");
+    const cards = document.querySelectorAll("#apps .card");
+
+    buttons.forEach(btn => {
+      btn.style.display = btn.textContent.toLowerCase().includes(query) ? 'inline-block' : 'none';
+    });
+
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      card.style.display = text.includes(query) ? 'block' : 'none';
+    });
+  }
 </script>
+
 </body>
 </html>
