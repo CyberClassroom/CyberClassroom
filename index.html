@@ -34,11 +34,19 @@
   --scroll-thumb: #888;
 }
 
-/* Scrollbars */
-::-webkit-scrollbar { width:12px; height:12px; }
-::-webkit-scrollbar-track { background: var(--scroll-bg); border-radius:6px; }
-::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius:6px; transition: all 0.3s ease; }
-::-webkit-scrollbar-thumb:hover { background: #aaa; }
+/* Scrollbars - hidden until hover */
+.downloads {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.downloads::-webkit-scrollbar { height: 8px; opacity: 0; transition: opacity 0.3s; }
+.downloads:hover::-webkit-scrollbar { opacity: 1; }
+.downloads::-webkit-scrollbar-track { background: var(--scroll-bg); border-radius:6px; }
+.downloads::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius:6px; }
 
 /* Basic styling */
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -64,15 +72,7 @@ section h2{font-size:1.8rem;border-bottom:2px solid var(--border-color);margin-b
 .btn{padding:14px 28px;background-color:var(--btn-bg);border:2px solid var(--border-color);border-radius:6px;color:var(--text-color);font-weight:700;cursor:pointer;transition:all 0.2s ease;user-select:none;box-shadow:0 4px 6px rgba(0,0,0,0.4);text-decoration:none;}
 .btn:hover{background-color:var(--btn-hover-bg);transform:scale(1.05);border-color:var(--accent-color);color:var(--accent-color);box-shadow:0 0 15px var(--accent-color);}
 
-/* Horizontal scrolling & snap */
-.downloads {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding-bottom: 10px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
+/* Cards */
 .card {
   flex: 0 0 260px;
   background-color: var(--card-bg);
@@ -83,7 +83,7 @@ section h2{font-size:1.8rem;border-bottom:2px solid var(--border-color);margin-b
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
-  height: 240px; /* same height for all cards */
+  height: 240px; /* fixed height */
 }
 .card h3{color:var(--accent-color);margin-bottom:12px;}
 .card p{color:var(--text-color);font-size:1rem;margin-bottom:15px; flex-grow:1;}
@@ -98,9 +98,11 @@ section h2{font-size:1.8rem;border-bottom:2px solid var(--border-color);margin-b
   transition:all 0.2s ease;
   font-weight:600;
   display:block;
-  margin-top:auto; /* pins the button to bottom */
+  margin-top:auto; /* pins button to bottom */
 }
 .card a:hover{background-color:var(--accent-color);border-color:var(--accent-color);color:#fff;box-shadow:0 0 12px var(--accent-color);}
+
+/* Social icons & footer */
 .social-icons{display:flex;gap:25px;justify-content:center;align-items:center;margin-top:20px;flex-wrap:wrap;}
 .icon{width:60px;height:60px;border-radius:50%;padding:10px;transition:transform 0.3s ease,box-shadow 0.3s ease;background-color:var(--card-bg);display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(0,0,0,0.3);}
 .icon img{width:32px;height:32px;filter:brightness(1.2);}
