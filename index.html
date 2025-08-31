@@ -59,21 +59,28 @@
     }
     @keyframes fadeIn { to { opacity: 1; } }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 800px;
-      height: 800px;
-      background: url('121.png') no-repeat center center;
-      background-size: contain;
-      opacity: 0.15;
-      transform: translate(-50%, -50%);
-      z-index: 0;
-      pointer-events: none;
-      filter: drop-shadow(0 0 30px rgba(88, 166, 255, 0.3)) blur(1px);
-    }
+  body::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 800px;
+  height: 800px;
+  background: url('121.png') no-repeat center center;
+  background-size: contain;
+  opacity: 0.25;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 30px rgba(88, 166, 255, 0.3)) blur(1px);
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* Light mode logo filter */
+[data-theme="light"] body::before {
+  filter: grayscale(100%) drop-shadow(0 0 30px rgba(0,0,0,0.3)) blur(1px);
+}
+
 
     #preloader {
       position: fixed;
