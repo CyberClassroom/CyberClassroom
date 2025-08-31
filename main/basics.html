@@ -178,8 +178,24 @@
   <button class="back-home-btn back-home-bottom" aria-label="Back to Home Bottom" onclick="goHome()">Back to Home</button>
 
   <script>
+//add 
+window.addEventListener("DOMContentLoaded", () => {
+  const hash = window.location.hash.slice(1); // e.g., "video1"
+  if(hash) {
+    const video = videos.find(v => v.id === hash);
+    if(video) {
+      loadVideo(video); // Automatically load video from hash
+    } else {
+      loadVideo(videos[0]); // Load default video if hash is invalid
+    }
+  } else {
+    loadVideo(videos[0]); // Load default video if no hash
+  }
+});
+
     const videos = [
       {
+        id: "video1",
         title: "Kali Linux Basics",
         embedUrl: "https://www.youtube.com/embed/HjzKFPhell8",
         thumbnail: "https://img.youtube.com/vi/HjzKFPhell8/hqdefault.jpg",
@@ -187,6 +203,7 @@
         description: "This tutorial covers the basics of Kali Linux including installation, setup, and initial commands."
       },
       {
+        id: "video2",
         title: "COMMANDS IN KALI LINUX PART‑1",
         embedUrl: "https://www.youtube.com/embed/GA8dA-5xbI8",
         thumbnail: "https://img.youtube.com/vi/GA8dA-5xbI8/hqdefault.jpg",
@@ -194,6 +211,7 @@
         description: "Learn and practice essential commands in Kali Linux – Part 1."
       },
       {
+        id: "video3",
         title: "COMMANDS IN KALI LINUX PART 2",
         embedUrl: "https://www.youtube.com/embed/OJNQyXjqv14",
         thumbnail: "https://img.youtube.com/vi/OJNQyXjqv14/hqdefault.jpg",
@@ -225,18 +243,19 @@
       return div;
     }
 
-    function loadVideo(video) {
-      const iframe = document.getElementById('main-video-iframe');
-      const src = video.embedUrl.includes('?') ? `${video.embedUrl}&autoplay=1` : `${video.embedUrl}?autoplay=1`;
-      iframe.src = src;
-      document.getElementById('main-video-title').textContent = video.title;
-      document.querySelector('.video-stats').textContent = video.stats;
-      document.querySelector('.video-description').textContent = video.description;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+function loadVideo(video) {
+  const iframe = document.getElementById('main-video-iframe');
+  const src = video.embedUrl.includes('?') ? `${video.embedUrl}&autoplay=1` : `${video.embedUrl}?autoplay=1`;
+  iframe.src = src;
+  document.getElementById('main-video-title').textContent = video.title;
+  document.querySelector('.video-stats').textContent = video.stats;
+  document.querySelector('.video-description').textContent = video.description;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      // Load comments for the selected video
-      loadUtterances(video.title);
-    }
+  // Load comments for the selected video
+  loadUtterances(video.title);
+}
+
 
     function renderPlaylist() {
       playlistEl.innerHTML = '';
