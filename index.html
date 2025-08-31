@@ -75,10 +75,16 @@ section h2{font-size:1.8rem;border-bottom:2px solid var(--border-color);margin-b
 .whatsapp:hover{background-color:#25D366;}
 footer{text-align:center;font-size:0.9rem;color:#6e7681;margin-top:60px;padding-top:20px;border-top:1px solid #21262d;position:relative;z-index:1;}
 @media(max-width:600px){.btn{width:100%;}}
+
+/* Search Popup */
 #search-popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:10000;}
 #search-box{background-color:var(--search-bg);border:2px solid var(--search-border);padding:20px;border-radius:10px;width:90%;max-width:600px;display:flex;flex-direction:column;}
 #search-box input{padding:12px;font-size:1rem;border:1px solid var(--border-color);border-radius:6px;outline:none;color:var(--text-color);background-color:var(--card-bg);margin-bottom:12px;}
-#search-results{max-height:300px;overflow-y:auto;}
+#search-results{max-height:300px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--scroll-thumb) var(--scroll-bg);transition:all 0.3s ease;}
+#search-results::-webkit-scrollbar{width:8px;}
+#search-results::-webkit-scrollbar-track{background:var(--scroll-bg);border-radius:6px;}
+#search-results::-webkit-scrollbar-thumb{background:var(--scroll-thumb);border-radius:6px;transition:background 0.3s ease, box-shadow 0.3s ease;}
+#search-results:hover::-webkit-scrollbar-thumb{background:var(--accent-color);box-shadow:0 0 8px var(--accent-color);}
 #search-results a{display:block;padding:10px;border-bottom:1px solid var(--border-color);color:var(--accent-color);text-decoration:none;}
 #search-results a:hover,#search-results a.active{background-color:var(--btn-hover-bg);color:#fff;}
 #search-results span.type{font-size:0.85em;font-weight:bold;opacity:0.8;margin-left:5px;}
@@ -117,8 +123,6 @@ footer{text-align:center;font-size:0.9rem;color:#6e7681;margin-top:60px;padding-
   </section>
 
   <section class="fade-in"><h2>Security Tools & APKs</h2>
-
-    <!-- Windows Tools -->
     <h3 style="color:var(--accent-color);margin-bottom:10px;">Windows Tools</h3>
     <div class="downloads fade-in">
       <div class="card">
@@ -126,9 +130,18 @@ footer{text-align:center;font-size:0.9rem;color:#6e7681;margin-top:60px;padding-
         <p>Recover lost passwords from ZIP, RAR, or document files.</p>
         <a href="downloads/pass-recovery.zip" download>Download</a>
       </div>
+      <div class="card">
+        <h3>Hiren's Boot CD PE</h3>
+        <p>Bootable ISO with multiple tools for system recovery and diagnostics.</p>
+        <a href="https://www.hirensbootcd.org/files/HBCD_PE_x64.iso" download>Download ISO</a>
+      </div>
+      <div class="card">
+        <h3>Rufus</h3>
+        <p>Tool to create bootable USB drives from ISO files.</p>
+        <a href="https://rufus.ie/downloads/rufus-4.9.exe" download>Download</a>
+      </div>
     </div>
 
-    <!-- Android APKs -->
     <h3 style="color:var(--accent-color);margin-bottom:10px;">Android APKs</h3>
     <div class="downloads fade-in">
       <div class="card">
@@ -147,7 +160,6 @@ footer{text-align:center;font-size:0.9rem;color:#6e7681;margin-top:60px;padding-
         <a href="https://files.modyolo.com/VlogNow/VlogNow_%20v2.9.1%20_MOD.apk" download>Download</a>
       </div>
     </div>
-
   </section>
 
   <section class="fade-in"><h2>Contact Us</h2>
@@ -187,6 +199,8 @@ const searchData=[
   {type:"Tutorial",title:"COMMANDS RELATED TO USERS AND GROUPS",url:"/main/command.html#0ugABcfsCM8"},
   {type:"Tutorial",title:"Command Line Usage",url:"/main/command.html"},
   {type:"Windows Tool",title:"Password Recovery Suite",url:"downloads/pass-recovery.zip"},
+  {type:"Windows Tool",title:"Hiren's Boot CD PE",url:"https://www.hirensbootcd.org/files/HBCD_PE_x64.iso"},
+  {type:"Windows Tool",title:"Rufus",url:"https://rufus.ie/downloads/rufus-4.9.exe"},
   {type:"Android APK",title:"Macrodroid",url:"https://files.modyolo.com/MacroDroid/MacroDroid%20v5.56.11%20-.apk"},
   {type:"Android APK",title:"NetScanner APK",url:"downloads/netscanner.apk"},
   {type:"Android APK",title:"VN Video Editing Pro",url:"https://files.modyolo.com/VlogNow/VlogNow_%20v2.9.1%20_MOD.apk"}
@@ -218,13 +232,15 @@ function renderResults(query){
 searchInput.addEventListener("input",()=>{activeIndex=-1;renderResults(searchInput.value);});
 searchInput.addEventListener("keydown",(e)=>{
   const items=searchResults.querySelectorAll('a'); 
-  if(!items.length)return;
+  if(!items.length) return;
   if(e.key==='ArrowDown'){activeIndex=(activeIndex+1)%items.length;}
   else if(e.key==='ArrowUp'){activeIndex=(activeIndex-1+items.length)%items.length;}
   else if(e.key==='Enter' && activeIndex>=0){window.location.href=items[activeIndex].href;}
   else if(e.key==='Escape'){searchPopup.style.display='none';}
   items.forEach((a,i)=>a.classList.toggle('active',i===activeIndex));
+  if(activeIndex>=0) items[activeIndex].scrollIntoView({behavior:'smooth', block:'nearest'});
 });
+
 document.addEventListener('keydown',e=>{if(e.key==='Escape') searchPopup.style.display='none';});
 </script>
 </body>
