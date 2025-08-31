@@ -6,7 +6,6 @@
 <title>CyberClassroom - Kali Linux Tutorials</title>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
 <link rel="icon" href="121.png" type="image/png">
-
 <style>
 :root {
   --bg-color: #0d1117;
@@ -64,11 +63,43 @@ section h2{font-size:1.8rem;border-bottom:2px solid var(--border-color);margin-b
 .button-group{display:flex;flex-wrap:wrap;gap:20px;}
 .btn{padding:14px 28px;background-color:var(--btn-bg);border:2px solid var(--border-color);border-radius:6px;color:var(--text-color);font-weight:700;cursor:pointer;transition:all 0.2s ease;user-select:none;box-shadow:0 4px 6px rgba(0,0,0,0.4);text-decoration:none;}
 .btn:hover{background-color:var(--btn-hover-bg);transform:scale(1.05);border-color:var(--accent-color);color:var(--accent-color);box-shadow:0 0 15px var(--accent-color);}
-.downloads{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
-.card{background-color:var(--card-bg);border:1px solid var(--border-color);border-radius:6px;padding:20px;box-shadow:0 2px 6px rgba(0,0,0,0.3);}
+
+/* Horizontal scrolling & snap */
+.downloads {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.card {
+  flex: 0 0 260px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  height: 240px; /* same height for all cards */
+}
 .card h3{color:var(--accent-color);margin-bottom:12px;}
-.card p{color:var(--text-color);font-size:1rem;margin-bottom:15px;}
-.card a{text-decoration:none;padding:12px 18px;background-color:var(--btn-hover-bg);color:var(--accent-color);border:1px solid var(--border-color);text-align:center;border-radius:5px;transition:all 0.2s ease;font-weight:600;display:block;}
+.card p{color:var(--text-color);font-size:1rem;margin-bottom:15px; flex-grow:1;}
+.card a{
+  text-decoration:none;
+  padding:12px 18px;
+  background-color:var(--btn-hover-bg);
+  color:var(--accent-color);
+  border:1px solid var(--border-color);
+  text-align:center;
+  border-radius:5px;
+  transition:all 0.2s ease;
+  font-weight:600;
+  display:block;
+  margin-top:auto; /* pins the button to bottom */
+}
 .card a:hover{background-color:var(--accent-color);border-color:var(--accent-color);color:#fff;box-shadow:0 0 12px var(--accent-color);}
 .social-icons{display:flex;gap:25px;justify-content:center;align-items:center;margin-top:20px;flex-wrap:wrap;}
 .icon{width:60px;height:60px;border-radius:50%;padding:10px;transition:transform 0.3s ease,box-shadow 0.3s ease;background-color:var(--card-bg);display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(0,0,0,0.3);}
@@ -122,13 +153,16 @@ footer{text-align:center;font-size:0.9rem;color:#6e7681;margin-top:60px;padding-
       <button class="btn" onclick="window.location.href='/main/command.html'">Command Line Usage</button>
     </div>
   </section>
+
   <section class="fade-in"><h2>Security Tools & APKs</h2>
     <div class="downloads fade-in">
-      <div class="card"><h3>Macrodroid v5.56.11</h3><p>For android automation.</p><a href="https://files.modyolo.com/MacroDroid/MacroDroid%20v5.56.11%20-.apk" download>Download</a></div>
+      <div class="card"><h3>Macrodroid v5.56.11</h3><p>Android automation tool to create tasks and macros easily.</p><a href="https://files.modyolo.com/MacroDroid/MacroDroid%20v5.56.11%20-.apk" download>Download</a></div>
       <div class="card"><h3>NetScanner APK</h3><p>Android network scanning APK to find devices and open ports.</p><a href="downloads/netscanner.apk" download>Download</a></div>
       <div class="card"><h3>Password Recovery Suite</h3><p>Recover lost passwords from ZIP, RAR, or document files.</p><a href="downloads/pass-recovery.zip" download>Download</a></div>
+      <div class="card"><h3>VN Video Editing Pro</h3><p>Professional video editing app for Android.</p><a href="https://files.modyolo.com/VlogNow/VlogNow_%20v2.9.1%20_MOD.apk" download>Download</a></div>
     </div>
   </section>
+
   <section class="fade-in"><h2>Contact Us</h2>
     <div class="social-icons">
       <a href="https://instagram.com/your_handle" target="_blank" class="icon instagram"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram"></a>
@@ -167,7 +201,8 @@ const searchData=[
   {type:"Tutorial",title:"Command Line Usage",url:"/main/command.html"},
   {type:"App",title:"Macrodroid",url:"https://files.modyolo.com/MacroDroid/MacroDroid%20v5.56.11%20-.apk"},
   {type:"App",title:"NetScanner APK",url:"downloads/netscanner.apk"},
-  {type:"App",title:"Password Recovery Suite",url:"downloads/pass-recovery.zip"}
+  {type:"App",title:"Password Recovery Suite",url:"downloads/pass-recovery.zip"},
+  {type:"App",title:"VN Video Editing Pro",url:"https://files.modyolo.com/VlogNow/VlogNow_%20v2.9.1%20_MOD.apk"}
 ];
 
 const searchPopup=document.getElementById("search-popup");
