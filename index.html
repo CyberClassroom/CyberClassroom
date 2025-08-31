@@ -1,253 +1,104 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CyberClassroom - Kali Linux Tutorials</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CyberClassroom - Kali Linux Tutorials</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+<link rel="icon" href="121.png" type="image/png">
 
-  <meta name="description" content="CyberClassroom offers Kali Linux tutorials, tools, and APKs for ethical hacking and penetration testing.">
-  <meta name="keywords" content="Kali Linux, Tutorials, Hacking, Ethical Hacking, Tools, APKs, Cybersecurity, Linux Training">
-  <meta name="author" content="CyberClassroom">
-
-  <meta property="og:title" content="CyberClassroom - Kali Linux Tutorials" />
-  <meta property="og:description" content="Master Kali Linux with hands-on tutorials, tools, and resources." />
-  <meta property="og:image" content="https://cyberclassroom.github.io/121.png" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://cyberclassroom.github.io" />
-
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
-  <link rel="icon" href="121.png" type="image/png" />
-
-  <style>
-    :root {
-      --bg-color: #0d1117;
-      --text-color: #e0e0e0;
-      --accent-color: #58a6ff;
-      --card-bg: #161b22;
-      --border-color: #30363d;
-      --btn-bg: #161b22;
-      --btn-hover-bg: #21262d;
-      --search-bg: #161b22;
-      --search-border: #58a6ff;
-    }
-
-    [data-theme="light"] {
-      --bg-color: #ffffff;
-      --text-color: #1c1c1c;
-      --accent-color: #005ecb;
-      --card-bg: #f5f5f5;
-      --border-color: #cccccc;
-      --btn-bg: #e0e0e0;
-      --btn-hover-bg: #d0d0d0;
-      --search-bg: #f5f5f5;
-      --search-border: #005ecb;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Fira Code', monospace;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      min-height: 100vh;
-      padding: 40px 20px;
-      overflow-x: hidden;
-      opacity: 0;
-      animation: fadeIn 0.8s forwards;
-      position: relative;
-      z-index: 1;
-    }
-    @keyframes fadeIn { to { opacity: 1; } }
-
-  body::before {
-  content: "";
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 800px;
-  height: 800px;
-  background: url('121.png') no-repeat center center;
-  background-size: contain;
-  opacity: 0.25;
-  transform: translate(-50%, -50%);
-  z-index: 0;
-  pointer-events: none;
-  filter: drop-shadow(0 0 30px rgba(88, 166, 255, 0.3)) blur(1px);
-  transition: filter 0.3s ease, opacity 0.3s ease;
+<style>
+:root {
+  --bg-color: #0d1117;
+  --text-color: #e0e0e0;
+  --accent-color: #58a6ff;
+  --card-bg: #161b22;
+  --border-color: #30363d;
+  --btn-bg: #161b22;
+  --btn-hover-bg: #21262d;
+  --search-bg: #161b22;
+  --search-border: #58a6ff;
+  --scroll-bg: #1a1a1a;
+  --scroll-thumb: #555;
+}
+[data-theme="light"] {
+  --bg-color: #ffffff;
+  --text-color: #1c1c1c;
+  --accent-color: #005ecb;
+  --card-bg: #f5f5f5;
+  --border-color: #cccccc;
+  --btn-bg: #e0e0e0;
+  --btn-hover-bg: #d0d0d0;
+  --search-bg: #f5f5f5;
+  --search-border: #005ecb;
+  --scroll-bg: #e0e0e0;
+  --scroll-thumb: #888;
 }
 
-/* Light mode logo filter */
-[data-theme="light"] body::before {
-  filter: grayscale(100%) drop-shadow(0 0 30px rgba(0,0,0,0.3)) blur(1px);
-}
+/* Scrollbars */
+::-webkit-scrollbar { width:12px; height:12px; }
+::-webkit-scrollbar-track { background: var(--scroll-bg); border-radius:6px; }
+::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius:6px; transition: all 0.3s ease; }
+::-webkit-scrollbar-thumb:hover { background: #aaa; }
 
+/* Basic styling */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Fira Code',monospace;background-color:var(--bg-color);color:var(--text-color);min-height:100vh;padding:40px 20px;overflow-x:hidden;opacity:0;animation:fadeIn 0.8s forwards;position:relative;z-index:1;}
+@keyframes fadeIn{to{opacity:1;}}
+body::before{content:"";position:fixed;top:50%;left:50%;width:800px;height:800px;background:url('121.png') no-repeat center center;background-size:contain;opacity:0.25;transform:translate(-50%,-50%);z-index:0;pointer-events:none;filter:drop-shadow(0 0 30px rgba(88,166,255,0.3)) blur(1px);transition:filter 0.3s ease,opacity 0.3s ease;}
+[data-theme="light"] body::before{filter:grayscale(100%) drop-shadow(0 0 30px rgba(0,0,0,0.3)) blur(1px);}
+#preloader{position:fixed;top:0;left:0;width:100%;height:100%;background-color:var(--bg-color);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease;}
+.spinner{width:60px;height:60px;border:6px solid rgba(88,166,255,0.3);border-top:6px solid rgba(88,166,255,0.9);border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+.theme-toggle{position:absolute;top:20px;right:20px;background:none;border:none;cursor:pointer;width:36px;height:36px;color:var(--text-color);z-index:10;}
+.theme-toggle svg{width:100%;height:100%;fill:currentColor;}
+header{text-align:center;margin-bottom:40px;position:relative;z-index:1;}
+header h1{font-size:2.8rem;color:var(--accent-color);margin-bottom:8px;}
+header p{font-size:1.2rem;color:#8b949e;}
+main{max-width:900px;margin:0 auto;position:relative;z-index:1;}
+section{margin-bottom:50px;}
+section h2{font-size:1.8rem;border-bottom:2px solid var(--border-color);margin-bottom:20px;padding-bottom:8px;color:var(--accent-color);}
+.button-group{display:flex;flex-wrap:wrap;gap:20px;}
+.btn{padding:14px 28px;background-color:var(--btn-bg);border:2px solid var(--border-color);border-radius:6px;color:var(--text-color);font-weight:700;cursor:pointer;transition:all 0.2s ease;user-select:none;box-shadow:0 4px 6px rgba(0,0,0,0.4);text-decoration:none;}
+.btn:hover{background-color:var(--btn-hover-bg);transform:scale(1.05);border-color:var(--accent-color);color:var(--accent-color);box-shadow:0 0 15px var(--accent-color);}
+.downloads{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+.card{background-color:var(--card-bg);border:1px solid var(--border-color);border-radius:6px;padding:20px;box-shadow:0 2px 6px rgba(0,0,0,0.3);}
+.card h3{color:var(--accent-color);margin-bottom:12px;}
+.card p{color:var(--text-color);font-size:1rem;margin-bottom:15px;}
+.card a{text-decoration:none;padding:12px 18px;background-color:var(--btn-hover-bg);color:var(--accent-color);border:1px solid var(--border-color);text-align:center;border-radius:5px;transition:all 0.2s ease;font-weight:600;display:block;}
+.card a:hover{background-color:var(--accent-color);border-color:var(--accent-color);color:#fff;box-shadow:0 0 12px var(--accent-color);}
+.social-icons{display:flex;gap:25px;justify-content:center;align-items:center;margin-top:20px;flex-wrap:wrap;}
+.icon{width:60px;height:60px;border-radius:50%;padding:10px;transition:transform 0.3s ease,box-shadow 0.3s ease;background-color:var(--card-bg);display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(0,0,0,0.3);}
+.icon img{width:32px;height:32px;filter:brightness(1.2);}
+.icon:hover{transform:scale(1.15);box-shadow:0 0 20px rgba(88,166,255,0.6);}
+.instagram:hover{background:radial-gradient(circle at 30% 30%,#feda75,#d62976,#962fbf,#4f5bd5);}
+.telegram:hover{background-color:#229ED9;}
+.email:hover{background-color:#D44638;}
+.whatsapp:hover{background-color:#25D366;}
+footer{text-align:center;font-size:0.9rem;color:#6e7681;margin-top:60px;padding-top:20px;border-top:1px solid #21262d;position:relative;z-index:1;}
+@media(max-width:600px){.btn{width:100%;}}
 
-    #preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: var(--bg-color);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .spinner {
-      width: 60px;
-      height: 60px;
-      border: 6px solid rgba(88, 166, 255, 0.3);
-      border-top: 6px solid rgba(88, 166, 255, 0.9);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-    .theme-toggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      width: 36px;
-      height: 36px;
-      color: var(--text-color);
-      z-index: 10;
-    }
-    .theme-toggle svg { width: 100%; height: 100%; fill: currentColor; }
-
-    header { text-align: center; margin-bottom: 40px; position: relative; z-index: 1; }
-    header h1 { font-size: 2.8rem; color: var(--accent-color); margin-bottom: 8px; }
-    header p { font-size: 1.2rem; color: #8b949e; }
-
-    main { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
-    section { margin-bottom: 50px; }
-    section h2 { font-size: 1.8rem; border-bottom: 2px solid var(--border-color); margin-bottom: 20px; padding-bottom: 8px; color: var(--accent-color); }
-
-    .button-group { display: flex; flex-wrap: wrap; gap: 20px; }
-    .btn {
-      padding: 14px 28px;
-      background-color: var(--btn-bg);
-      border: 2px solid var(--border-color);
-      border-radius: 6px;
-      color: var(--text-color);
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      user-select: none;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
-      text-decoration: none;
-    }
-    .btn:hover {
-      background-color: var(--btn-hover-bg);
-      transform: scale(1.05);
-      border-color: var(--accent-color);
-      color: var(--accent-color);
-      box-shadow: 0 0 15px var(--accent-color);
-    }
-
-    .downloads {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 20px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    }
-    .card h3 { color: var(--accent-color); margin-bottom: 12px; }
-    .card p { color: var(--text-color); font-size: 1rem; margin-bottom: 15px; }
-    .card a {
-      text-decoration: none;
-      padding: 12px 18px;
-      background-color: var(--btn-hover-bg);
-      color: var(--accent-color);
-      border: 1px solid var(--border-color);
-      text-align: center;
-      border-radius: 5px;
-      transition: all 0.2s ease;
-      font-weight: 600;
-      display: block;
-    }
-    .card a:hover {
-      background-color: var(--accent-color);
-      border-color: var(--accent-color);
-      color: #fff;
-      box-shadow: 0 0 12px var(--accent-color);
-    }
-
-    .social-icons { display: flex; gap: 25px; justify-content: center; align-items: center; margin-top: 20px; flex-wrap: wrap; }
-    .icon { width: 60px; height: 60px; border-radius: 50%; padding: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease; background-color: var(--card-bg); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
-    .icon img { width: 32px; height: 32px; filter: brightness(1.2); }
-    .icon:hover { transform: scale(1.15); box-shadow: 0 0 20px rgba(88, 166, 255, 0.6); }
-    .instagram:hover { background: radial-gradient(circle at 30% 30%, #feda75, #d62976, #962fbf, #4f5bd5); }
-    .telegram:hover { background-color: #229ED9; }
-    .email:hover { background-color: #D44638; }
-    .whatsapp:hover { background-color: #25D366; }
-
-    footer { text-align: center; font-size: 0.9rem; color: #6e7681; margin-top: 60px; padding-top: 20px; border-top: 1px solid #21262d; position: relative; z-index: 1; }
-
-    @media (max-width: 600px) { .btn { width: 100%; } }
-
-    /* Search Popup */
-    #search-popup {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      display: none;
-      align-items: center; justify-content: center;
-      z-index: 10000;
-    }
-    #search-box {
-      background-color: var(--search-bg);
-      border: 2px solid var(--search-border);
-      padding: 20px;
-      border-radius: 10px;
-      width: 90%; max-width: 600px;
-      display: flex;
-      flex-direction: column;
-    }
-    #search-box input {
-      padding: 12px;
-      font-size: 1rem;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      outline: none;
-      color: var(--text-color);
-      background-color: var(--card-bg);
-      margin-bottom: 12px;
-    }
-    #search-results { max-height: 300px; overflow-y: auto; }
-    #search-results a {
-      display: block;
-      padding: 10px;
-      border-bottom: 1px solid var(--border-color);
-      color: var(--accent-color);
-      text-decoration: none;
-    }
-    #search-results a:hover { background-color: var(--btn-hover-bg); color: #fff; }
-  </style>
+/* Search Popup */
+#search-popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:10000;}
+#search-box{background-color:var(--search-bg);border:2px solid var(--search-border);padding:20px;border-radius:10px;width:90%;max-width:600px;display:flex;flex-direction:column;}
+#search-box input{padding:12px;font-size:1rem;border:1px solid var(--border-color);border-radius:6px;outline:none;color:var(--text-color);background-color:var(--card-bg);margin-bottom:12px;}
+#search-results{max-height:300px;overflow-y:auto;}
+#search-results a{display:block;padding:10px;border-bottom:1px solid var(--border-color);color:var(--accent-color);text-decoration:none;}
+#search-results a:hover,#search-results a.active{background-color:var(--btn-hover-bg);color:#fff;}
+#search-results span.type{font-size:0.85em;font-weight:bold;opacity:0.8;margin-left:5px;}
+</style>
 </head>
 <body>
 
-<!-- Preloader -->
 <div id="preloader"><div class="spinner"></div></div>
 
-<!-- Theme Toggle -->
 <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
   <svg id="theme-icon" viewBox="0 0 24 24"></svg>
 </button>
 
-<!-- Search Button -->
 <button class="theme-toggle" style="right:70px;" onclick="openSearch()" aria-label="Open search">
   <svg viewBox="0 0 24 24" fill="currentColor">
     <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/>
@@ -255,146 +106,104 @@
   </svg>
 </button>
 
-<!-- Search Popup -->
-<div id="search-popup" onclick="closeSearch(event)">
+<div id="search-popup" role="dialog" aria-modal="true" onclick="closeSearch(event)">
   <div id="search-box">
     <input type="text" id="search-input" placeholder="Search tutorials, tools, APKs..." aria-label="Search">
     <div id="search-results"></div>
   </div>
 </div>
 
-<header class="fade-in">
-  <h1>CyberClassroom</h1>
-  <p>Kali Linux Tutorials, Tools, and Resources</p>
-</header>
-
+<header class="fade-in"><h1>CyberClassroom</h1><p>Kali Linux Tutorials, Tools, and Resources</p></header>
 <main>
-  <section class="fade-in">
-    <h2>Tutorial Videos</h2>
+  <section class="fade-in"><h2>Tutorial Videos</h2>
     <div class="button-group fade-in">
-      <button class="btn" onclick="window.location.href='/main/setup.html'" aria-label="Kali Linux Setup Tutorial">Kali Linux Setup</button>
-      <button class="btn" onclick="window.location.href='/main/basics.html'" aria-label="Kali Linux Basics Tutorial">Kali Linux Basics</button>
-      <button class="btn" onclick="window.location.href='/main/command.html'" aria-label="Command Line Usage Tutorial">Command Line Usage</button>
+      <button class="btn" onclick="window.location.href='/main/setup.html'">Kali Linux Setup</button>
+      <button class="btn" onclick="window.location.href='/main/basics.html'">Kali Linux Basics</button>
+      <button class="btn" onclick="window.location.href='/main/command.html'">Command Line Usage</button>
     </div>
   </section>
-
-  <section class="fade-in">
-    <h2>Security Tools & APKs</h2>
+  <section class="fade-in"><h2>Security Tools & APKs</h2>
     <div class="downloads fade-in">
-      <div class="card">
-        <h3>Macrodroid v5.56.11</h3>
-        <p>For android automation.</p>
-        <a href="https://files.modyolo.com/MacroDroid/MacroDroid%20v5.56.11%20-.apk" download aria-label="Download Macrdroid">Download</a>
-      </div>
-      <div class="card">
-        <h3>NetScanner APK</h3>
-        <p>Android network scanning APK to find devices and open ports.</p>
-        <a href="downloads/netscanner.apk" download aria-label="Download NetScanner APK">Download</a>
-      </div>
-      <div class="card">
-        <h3>Password Recovery Suite</h3>
-        <p>Recover lost passwords from ZIP, RAR, or document files.</p>
-        <a href="downloads/pass-recovery.zip" download aria-label="Download Password Recovery Suite">Download</a>
-      </div>
+      <div class="card"><h3>Macrodroid v5.56.11</h3><p>For android automation.</p><a href="https://files.modyolo.com/MacroDroid/MacroDroid%20v5.56.11%20-.apk" download>Download</a></div>
+      <div class="card"><h3>NetScanner APK</h3><p>Android network scanning APK to find devices and open ports.</p><a href="downloads/netscanner.apk" download>Download</a></div>
+      <div class="card"><h3>Password Recovery Suite</h3><p>Recover lost passwords from ZIP, RAR, or document files.</p><a href="downloads/pass-recovery.zip" download>Download</a></div>
     </div>
   </section>
-
-  <section class="fade-in">
-    <h2>Contact Us</h2>
+  <section class="fade-in"><h2>Contact Us</h2>
     <div class="social-icons">
-      <a href="https://instagram.com/your_handle" target="_blank" rel="noopener noreferrer" class="icon instagram" title="Instagram">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
-      </a>
-      <a href="https://t.me/yourusername" target="_blank" rel="noopener noreferrer" class="icon telegram" title="Telegram">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram">
-      </a>
-      <a href="mailto:techwithharsh5124@gmail.com" class="icon email" title="Email">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email">
-      </a>
-      <a href="https://wa.me/+917844990650" target="_blank" rel="noopener noreferrer" class="icon whatsapp" title="WhatsApp">
-        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
-      </a>
+      <a href="https://instagram.com/your_handle" target="_blank" class="icon instagram"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram"></a>
+      <a href="https://t.me/yourusername" target="_blank" class="icon telegram"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" alt="Telegram"></a>
+      <a href="mailto:techwithharsh5124@gmail.com" class="icon email"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email"></a>
+      <a href="https://wa.me/+917844990650" target="_blank" class="icon whatsapp"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp"></a>
     </div>
   </section>
 </main>
-
-<footer class="fade-in">
-  &copy; 2025 CyberClassroom. Kali Linux Tutorials Hub.
-</footer>
+<footer class="fade-in">&copy; 2025 CyberClassroom. Kali Linux Tutorials Hub.</footer>
 
 <script>
-  // Preloader and fade-in
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("preloader").style.display = "none";
-    document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
-  });
-
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        document.querySelectorAll('.fade-in').forEach(el => {
-          if (el.getBoundingClientRect().top < window.innerHeight - 100) {
-            el.classList.add('visible');
-          }
-        });
-        ticking = false;
-      });
-      ticking = true;
-    }
-  });
-
-  // Theme toggle
-  const icon = document.getElementById("theme-icon");
-  function updateThemeIcon(theme) {
-    icon.innerHTML = theme === "light"
-      ? `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>`
-      : `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>`;
-  }
-  function toggleTheme() {
-    const current = document.documentElement.getAttribute("data-theme");
-    const next = current === "light" ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("theme", next);
-    updateThemeIcon(next);
-  }
-  const saved = localStorage.getItem("theme") || "dark";
-  document.documentElement.setAttribute("data-theme", saved);
-  updateThemeIcon(saved);
-
-  // Search functionality yoyoyoyo
-  const searchData = [
-    {type: "Tutorial" ,title:"Kali Linux Setup", url:"/main/setup.html"},
-    {type: "Tutorial" ,title:"Kali Linux Basics", url:"/main/basics.html"},
-{ type: "Tutorial" , title: "COMMANDS IN KALI LINUX PART-1", url: "/main/basics.html#video2"},
-{ type: "Tutorial" ,title: "COMMANDS IN KALI LINUX PART-2", url: "/main/basics.html#video3" },
-{ type: "Tutorial" ,title: "COMMANDS FOR TEXT FILE IN LINUX", url: "/main/command.html#cVSCcTJnC28" },
-{ type: "Tutorial" ,title: "COMMANDS RELATED TO SYSTEM INFORMATION", url: "/main/command.html#jFHYIof09Do" },
-{ type: "Tutorial" ,title: "COMMANDS RELATED TO USERS AND GROUPS", url: "/main/command.html#0ugABcfsCM8" },
-
-
-    {type: "Tutorial" ,title:"Command Line Usage", url:"/main/command.html"},
-    {type: "App" ,title:"Macrodroid", url:"https://files.modyolo.com/MacroDroid/MacroDroid%20v5.56.11%20-.apk"},
-    {type: "App" ,title:"NetScanner APK", url:"downloads/netscanner.apk"},
-    {type: "App" ,title:"Password Recovery Suite", url:"downloads/pass-recovery.zip"}
-  ];
-
-  const searchPopup = document.getElementById("search-popup");
-  const searchInput = document.getElementById("search-input");
-  const searchResults = document.getElementById("search-results");
-
-  function openSearch() { searchPopup.style.display="flex"; searchInput.focus(); searchInput.value=""; searchResults.innerHTML=""; }
-  function closeSearch(e) { if(e.target===searchPopup){ searchPopup.style.display="none"; } }
-
- searchInput.addEventListener("input", () => {
-  const query = searchInput.value.toLowerCase();
-  searchResults.innerHTML = searchData.filter(item => item.title.toLowerCase().includes(query))
-    .map(item => {
-      const regex = new RegExp(`(${query})`, "gi");
-      const highlighted = item.title.replace(regex, `<mark style="background:var(--accent-color);color:#000;">$1</mark>`);
-      return `<a href="${item.url}">${highlighted} <span style="color:#888; font-size:0.85em;">[${item.type}]</span></a>`;
-    }).join('') || '<p style="color:#888;">No results found.</p>';
+// Preloader
+document.addEventListener('DOMContentLoaded',()=>{
+  const preloader=document.getElementById("preloader");
+  preloader.style.opacity="0"; setTimeout(()=>preloader.style.display="none",500);
+  document.querySelectorAll('.fade-in').forEach(el=>el.classList.add('visible'));
 });
+let ticking=false; window.addEventListener('scroll',()=>{if(!ticking){window.requestAnimationFrame(()=>{document.querySelectorAll('.fade-in').forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight-100) el.classList.add('visible');});ticking=false;});ticking=true;}});
+
+// Theme toggle
+const icon=document.getElementById("theme-icon");
+function updateThemeIcon(theme){icon.innerHTML=theme==="light"?`<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>`:`<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>`;}
+function toggleTheme(){const current=document.documentElement.getAttribute("data-theme");const next=current==="light"?"dark":"light";document.documentElement.setAttribute("data-theme",next);localStorage.setItem("theme",next);updateThemeIcon(next);}
+const saved=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",saved);updateThemeIcon(saved);
+
+// Search
+const searchData=[
+  {type:"Tutorial",title:"Kali Linux Setup",url:"/main/setup.html"},
+  {type:"Tutorial",title:"Kali Linux Basics",url:"/main/basics.html"},
+  {type:"Tutorial",title:"COMMANDS IN KALI LINUX PART-1",url:"/main/basics.html#video2"},
+  {type:"Tutorial",title:"COMMANDS IN KALI LINUX PART-2",url:"/main/basics.html#video3"},
+  {type:"Tutorial",title:"COMMANDS FOR TEXT FILE IN LINUX",url:"/main/command.html#cVSCcTJnC28"},
+  {type:"Tutorial",title:"COMMANDS RELATED TO SYSTEM INFORMATION",url:"/main/command.html#jFHYIof09Do"},
+  {type:"Tutorial",title:"COMMANDS RELATED TO USERS AND GROUPS",url:"/main/command.html#0ugABcfsCM8"},
+  {type:"Tutorial",title:"Command Line Usage",url:"/main/command.html"},
+  {type:"App",title:"Macrodroid",url:"https://files.modyolo.com/MacroDroid/MacroDroid%20v5.56.11%20-.apk"},
+  {type:"App",title:"NetScanner APK",url:"downloads/netscanner.apk"},
+  {type:"App",title:"Password Recovery Suite",url:"downloads/pass-recovery.zip"}
+];
+
+const searchPopup=document.getElementById("search-popup");
+const searchInput=document.getElementById("search-input");
+const searchResults=document.getElementById("search-results");
+let activeIndex=-1;
+
+function openSearch(){searchPopup.style.display="flex";searchInput.focus();searchInput.value="";searchResults.innerHTML="";activeIndex=-1;}
+function closeSearch(e){if(e.target===searchPopup){searchPopup.style.display='none';}}
+
+// Fuzzy multi-word search
+function similarity(s1,s2){s1=s1.toLowerCase();s2=s2.toLowerCase();let longer=Math.max(s1.length,s2.length);if(longer===0)return 1;let same=0;for(let i=0;i<Math.min(s1.length,s2.length);i++){if(s1[i]===s2[i]) same++;}return same/longer;}
+function renderResults(query){
+  if(!query){searchResults.innerHTML=""; return;}
+  const words=query.toLowerCase().split(" ").filter(w=>w);
+  const scored=searchData.map(item=>{
+    let score=0;
+    words.forEach(w=>{score+=similarity(w,item.title.toLowerCase()) + 0.2*(item.title.toLowerCase().includes(w)?1:0);});
+    return {item,score};
+  });
+  scored.sort((a,b)=>b.score-a.score);
+  const filtered=scored.filter(s=>s.score>0);
+  searchResults.innerHTML=filtered.length?filtered.map((s,index)=>`<a href="${s.item.url}" class="${index===activeIndex?'active':''}">${s.item.title.replace(new RegExp(`(${query.split(" ").join("|")})`,"gi"),`<mark style="background:var(--accent-color);color:#000;">$1</mark>`)}<span class="type">[${s.item.type}]</span></a>`).join(''):'<p style="color:#888;">No results found.</p>';
+}
+
+searchInput.addEventListener("input",()=>{activeIndex=-1;renderResults(searchInput.value);});
+searchInput.addEventListener("keydown",(e)=>{
+  const items=searchResults.querySelectorAll('a'); 
+  if(!items.length)return;
+  if(e.key==='ArrowDown'){activeIndex=(activeIndex+1)%items.length;}
+  else if(e.key==='ArrowUp'){activeIndex=(activeIndex-1+items.length)%items.length;}
+  else if(e.key==='Enter' && activeIndex>=0){window.location.href=items[activeIndex].href;}
+  else if(e.key==='Escape'){searchPopup.style.display='none';}
+  items.forEach((a,i)=>a.classList.toggle('active',i===activeIndex));
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape') searchPopup.style.display='none';});
 </script>
 </body>
 </html>
