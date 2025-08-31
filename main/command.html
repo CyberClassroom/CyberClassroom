@@ -9,270 +9,47 @@
 
   <style>
     :root {
-      --bg: #0d1117;
-      --text: #c9d1d9;
-      --primary: #58a6ff;
-      --card-bg: #161b22;
-      --card-shadow: rgba(88, 166, 255, 0.25);
-      --highlight: #1f6feb;
+      --bg: #0d1117; --text: #c9d1d9; --primary: #58a6ff; --card-bg: #161b22;
+      --card-shadow: rgba(88, 166, 255, 0.25); --highlight: #1f6feb;
     }
-
     [data-theme="light"] {
-      --bg: #f9fafb;
-      --text: #24292f;
-      --primary: #0969da;
-      --card-bg: #ffffff;
-      --card-shadow: rgba(9, 105, 218, 0.15);
-      --highlight: #0969da;
+      --bg: #f9fafb; --text: #24292f; --primary: #0969da; --card-bg: #ffffff;
+      --card-shadow: rgba(9, 105, 218, 0.15); --highlight: #0969da;
     }
-
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-      user-select: none;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; display:flex; flex-direction:column;
+      align-items:center; padding:40px 20px; user-select:none;
     }
+    header { margin-bottom:40px; text-align:center; user-select:text; }
+    header h1 { font-weight:700; font-size:2.5rem; color:var(--primary); margin-bottom:8px; }
+    header p { font-weight:400; font-size:1.15rem; color:var(--text); opacity:0.75; }
 
-    header {
-      margin-bottom: 40px;
-      text-align: center;
-      user-select: text;
-    }
+    main { width:100%; max-width:900px; display:flex; flex-direction:column; align-items:center; gap:32px; }
 
-    header h1 {
-      font-weight: 700;
-      font-size: 2.5rem;
-      color: var(--primary);
-      letter-spacing: 0.04em;
-      margin-bottom: 8px;
-    }
+    .video-wrapper { width:100%; max-width:900px; aspect-ratio:16/9; border-radius:12px; overflow:hidden; box-shadow:0 12px 30px var(--card-shadow); background:#000; }
+    .video-wrapper iframe { width:100%; height:100%; border:none; display:block; }
 
-    header p {
-      font-weight: 400;
-      font-size: 1.15rem;
-      color: var(--text);
-      opacity: 0.75;
-    }
+    .video-title { font-weight:600; font-size:1.4rem; margin:12px 0 0; color:var(--primary); text-align:center; min-height:44px; user-select:text; }
 
-    main {
-      width: 100%;
-      max-width: 900px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 32px;
-    }
+    .playlist { width:100%; display:flex; gap:20px; overflow-x:auto; padding-bottom:12px; scroll-behavior:smooth; }
+    .playlist-card { flex:0 0 220px; background:var(--card-bg); border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.6); cursor:pointer; display:flex; flex-direction:column; overflow:hidden; outline-offset:3px; outline-color:transparent; transition:transform 0.25s, box-shadow 0.25s ease; }
+    .playlist-card:hover, .playlist-card:focus-visible { transform:scale(1.07); box-shadow:0 8px 30px var(--card-shadow); outline-color:var(--primary); outline-style:solid; outline-width:3px; }
+    .playlist-card.active { border:3px solid var(--primary); box-shadow:0 12px 40px var(--primary); transform:scale(1.1); pointer-events:none; }
+    .playlist-card img { width:100%; aspect-ratio:16/9; object-fit:cover; border-bottom:1px solid var(--highlight); }
+    .card-title { padding:14px 12px; font-weight:600; font-size:1rem; color:var(--text); text-align:center; min-height:56px; user-select:text; }
+    .playlist-card.active .card-title { color:var(--primary); }
 
-    /* Video Player */
-    .video-wrapper {
-      width: 100%;
-      max-width: 900px;
-      aspect-ratio: 16 / 9;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 12px 30px var(--card-shadow);
-      background: #000;
-      transition: box-shadow 0.3s ease;
-    }
+    .btn-back { margin-top:48px; padding:14px 28px; background-color:transparent; border:2px solid var(--primary); border-radius:30px; color:var(--primary); font-weight:600; font-size:1.05rem; cursor:pointer; text-decoration:none; }
+    .btn-back:hover, .btn-back:focus-visible { background-color:var(--primary); color:var(--bg); transform:scale(1.05); outline:none; }
 
-    .video-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-      filter: drop-shadow(0 0 5px var(--primary));
-      transition: filter 0.3s ease;
-    }
+    .theme-toggle { position:fixed; top:22px; right:22px; width:40px; height:40px; border:none; background:none; cursor:pointer; color:var(--primary); z-index:1000; }
+    .theme-toggle svg { width:100%; height:100%; fill:currentColor; }
 
-    .video-wrapper:hover iframe {
-      filter: drop-shadow(0 0 15px var(--primary));
-    }
-
-    /* Video Title */
-    .video-title {
-      font-weight: 600;
-      font-size: 1.4rem;
-      margin: 12px 0 0;
-      color: var(--primary);
-      text-align: center;
-      user-select: text;
-      min-height: 44px;
-    }
-
-    /* Playlist Container */
-    .playlist {
-      width: 100%;
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      padding-bottom: 12px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--primary) transparent;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .playlist::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    .playlist::-webkit-scrollbar-thumb {
-      background-color: var(--primary);
-      border-radius: 4px;
-    }
-
-    /* Playlist Card */
-    .playlist-card {
-      flex: 0 0 220px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-      cursor: pointer;
-      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
-      user-select: none;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
-      outline-offset: 3px;
-      outline-color: transparent;
-    }
-
-    .playlist-card:hover,
-    .playlist-card:focus-visible {
-      transform: scale(1.07);
-      box-shadow: 0 8px 30px var(--card-shadow);
-      outline-color: var(--primary);
-      outline-style: solid;
-      outline-width: 3px;
-    }
-
-    .playlist-card.active {
-      border: 3px solid var(--primary);
-      box-shadow: 0 12px 40px var(--primary);
-      transform: scale(1.1);
-      pointer-events: none;
-    }
-
-    /* Thumbnail Image */
-    .playlist-card img {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      border-bottom: 1px solid var(--highlight);
-      user-select: none;
-      transition: filter 0.3s ease;
-    }
-
-    .playlist-card.active img {
-      filter: brightness(1.1);
-    }
-
-    /* Card Title */
-    .card-title {
-      padding: 14px 12px;
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--text);
-      text-align: center;
-      min-height: 56px;
-      user-select: text;
-      transition: color 0.3s ease;
-    }
-
-    .playlist-card.active .card-title {
-      color: var(--primary);
-    }
-
-    /* Back Button */
-    .btn-back {
-      margin-top: 48px;
-      padding: 14px 28px;
-      background-color: transparent;
-      border: 2px solid var(--primary);
-      border-radius: 30px;
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 1.05rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      text-decoration: none;
-      user-select: none;
-      display: inline-block;
-      text-align: center;
-      max-width: 180px;
-    }
-
-    .btn-back:hover,
-    .btn-back:focus-visible {
-      background-color: var(--primary);
-      color: var(--bg);
-      outline: none;
-      transform: scale(1.05);
-    }
-
-    /* Theme Toggle */
-    .theme-toggle {
-      position: fixed;
-      top: 22px;
-      right: 22px;
-      width: 40px;
-      height: 40px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      color: var(--primary);
-      z-index: 1000;
-      transition: transform 0.3s ease;
-    }
-
-    .theme-toggle:hover,
-    .theme-toggle:focus-visible {
-      transform: scale(1.2);
-      outline: none;
-    }
-
-    .theme-toggle svg {
-      width: 100%;
-      height: 100%;
-      fill: currentColor;
-    }
-
-    /* Utterances container styling */
-    #utterances-container {
-      width: 100%;
-      max-width: 900px;
-      margin-top: 48px;
-    }
-
-    /* Responsive */
-    @media (max-width: 640px) {
-      main {
-        max-width: 100%;
-        padding: 0 10px;
-      }
-
-      .playlist-card {
-        flex: 0 0 160px;
-      }
-
-      .playlist-card .card-title {
-        font-size: 0.9rem;
-        min-height: 48px;
-        padding: 10px 8px;
-      }
-    }
+    #utterances-container { width:100%; max-width:900px; margin-top:48px; }
+    @media(max-width:640px) { main { max-width:100%; padding:0 10px; } .playlist-card { flex:0 0 160px; } .card-title { font-size:0.9rem; min-height:48px; padding:10px 8px; } }
   </style>
 </head>
 <body>
@@ -288,72 +65,50 @@
 
 <main>
   <div class="video-wrapper" aria-label="Video player">
-    <iframe
-      id="video-player"
-      src="https://www.youtube.com/embed/cVSCcTJnC28"
-      title="COMMANDS FOR TEXT FILE IN LINUX"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-      loading="lazy"
-    ></iframe>
+    <iframe id="video-player" src="" title="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
   </div>
-  <h2 class="video-title" id="video-title">COMMANDS FOR TEXT FILE IN LINUX</h2>
+  <h2 class="video-title" id="video-title"></h2>
 
   <nav class="playlist" role="list" aria-label="Command Line Tutorials Playlist">
-    <div tabindex="0" role="listitem" class="playlist-card active" data-video="cVSCcTJnC28" aria-current="true" aria-label="Commands for Text File in Linux">
-      <img src="https://img.youtube.com/vi/cVSCcTJnC28/hqdefault.jpg" alt="Thumbnail for Commands for Text File in Linux" />
+    <div tabindex="0" role="listitem" class="playlist-card" data-video="cVSCcTJnC28">
+      <img src="https://img.youtube.com/vi/cVSCcTJnC28/hqdefault.jpg" alt="Thumbnail for COMMANDS FOR TEXT FILE IN LINUX" />
       <div class="card-title">COMMANDS FOR TEXT FILE IN LINUX</div>
     </div>
-    <div tabindex="0" role="listitem" class="playlist-card" data-video="jFHYIof09Do" aria-label="Commands Related to System Information">
-      <img src="https://img.youtube.com/vi/jFHYIof09Do/hqdefault.jpg" alt="Thumbnail for Commands Related to System Information" />
+    <div tabindex="0" role="listitem" class="playlist-card" data-video="jFHYIof09Do">
+      <img src="https://img.youtube.com/vi/jFHYIof09Do/hqdefault.jpg" alt="Thumbnail for COMMANDS RELATED TO SYSTEM INFORMATION" />
       <div class="card-title">COMMANDS RELATED TO SYSTEM INFORMATION</div>
     </div>
-    <div tabindex="0" role="listitem" class="playlist-card" data-video="0ugABcfsCM8" aria-label="Commands Related to Users and Groups">
-      <img src="https://img.youtube.com/vi/0ugABcfsCM8/hqdefault.jpg" alt="Thumbnail for Commands Related to Users and Groups" />
+    <div tabindex="0" role="listitem" class="playlist-card" data-video="0ugABcfsCM8">
+      <img src="https://img.youtube.com/vi/0ugABcfsCM8/hqdefault.jpg" alt="Thumbnail for COMMANDS RELATED TO USERS AND GROUPS" />
       <div class="card-title">COMMANDS RELATED TO USERS AND GROUPS</div>
     </div>
   </nav>
 
-  <!-- Utterances comments container -->
   <div id="utterances-container"></div>
 </main>
 
 <a href="../index.html" class="btn-back" aria-label="Back to Home">← Back to Home</a>
 
 <script>
-  // Theme toggle logic
+  // Theme Toggle
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
   const themeIcon = document.getElementById('theme-icon');
 
-  function setThemeIcon(theme) {
-    if(theme === 'light') {
-      // Sun icon
-      themeIcon.innerHTML = `
-        <circle cx="12" cy="12" r="5"/>
-        <line x1="12" y1="1" x2="12" y2="3"/>
-        <line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="1" y1="12" x2="3" y2="12"/>
-        <line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-      `;
-    } else {
-      // Moon icon
-      themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>`;
-    }
+  function setThemeIcon(theme){
+    if(theme==='light'){
+      themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+    } else { themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>`; }
   }
 
-  function loadTheme() {
+  function loadTheme(){
     const saved = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', saved);
     setThemeIcon(saved);
   }
 
-  function toggleTheme() {
+  function toggleTheme(){
     const current = document.documentElement.getAttribute('data-theme');
-    const next = current === 'light' ? 'dark' : 'light';
+    const next = current==='light'?'dark':'light';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
     setThemeIcon(next);
@@ -361,82 +116,82 @@
   }
 
   themeToggleBtn.addEventListener('click', toggleTheme);
-
   loadTheme();
 
-  // Playlist interaction
+  // Video Data
+  const videos = [
+    {id:"cVSCcTJnC28", title:"COMMANDS FOR TEXT FILE IN LINUX", embedUrl:"https://www.youtube.com/embed/cVSCcTJnC28"},
+    {id:"jFHYIof09Do", title:"COMMANDS RELATED TO SYSTEM INFORMATION", embedUrl:"https://www.youtube.com/embed/jFHYIof09Do"},
+    {id:"0ugABcfsCM8", title:"COMMANDS RELATED TO USERS AND GROUPS", embedUrl:"https://www.youtube.com/embed/0ugABcfsCM8"}
+  ];
+
   const playlistCards = document.querySelectorAll('.playlist-card');
   const player = document.getElementById('video-player');
-  const title = document.getElementById('video-title');
+  const titleEl = document.getElementById('video-title');
+  const utterancesContainer = document.getElementById('utterances-container');
 
-  playlistCards.forEach(card => {
-    card.addEventListener('click', () => selectVideo(card));
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        selectVideo(card);
-      }
-    });
-  });
-
-  function selectVideo(card) {
+  function selectVideo(card){
     if(card.classList.contains('active')) return;
 
-    playlistCards.forEach(c => {
+    playlistCards.forEach(c=>{
       c.classList.remove('active');
       c.removeAttribute('aria-current');
-      c.setAttribute('tabindex', '0');
+      c.setAttribute('tabindex','0');
     });
 
     card.classList.add('active');
-    card.setAttribute('aria-current', 'true');
-    card.setAttribute('tabindex', '-1');
+    card.setAttribute('aria-current','true');
+    card.setAttribute('tabindex','-1');
 
     const videoId = card.getAttribute('data-video');
-    const videoTitles = {
-      cVSCcTJnC28: "COMMANDS FOR TEXT FILE IN LINUX",
-      jFHYIof09Do: "COMMANDS RELATED TO SYSTEM INFORMATION",
-      "0ugABcfsCM8": "COMMANDS RELATED TO USERS AND GROUPS"
-    };
+    const video = videos.find(v=>v.id===videoId);
+    if(!video) return;
 
-    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-    title.textContent = videoTitles[videoId];
+    player.src = `${video.embedUrl}?autoplay=1`;
+    titleEl.textContent = video.title;
 
-    // Scroll the selected card into view smoothly
-    card.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    history.replaceState(null,null,`#${video.id}`);
+    card.scrollIntoView({behavior:'smooth', inline:'center'});
+    createUtterances(document.documentElement.getAttribute('data-theme'));
   }
 
-  // Utterances comments integration
-  const utterancesContainer = document.getElementById('utterances-container');
+  // Click & keyboard support
+  playlistCards.forEach(card=>{
+    card.addEventListener('click', ()=>selectVideo(card));
+    card.addEventListener('keydown', e=>{
+      if(e.key==='Enter'||e.key===' ') { e.preventDefault(); selectVideo(card); }
+    });
+  });
 
-  function createUtterances(theme) {
-    const script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', 'CyberClassroom/cyberclassroom.github.io');
-    script.setAttribute('issue-term', 'title');
-    script.setAttribute('theme', theme === 'light' ? 'github-light' : 'github-dark');
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
-    utterancesContainer.innerHTML = '';
+  // Detect hash on load
+  window.addEventListener("DOMContentLoaded",()=>{
+    const hash = window.location.hash.slice(1);
+    if(hash){
+      const card = Array.from(playlistCards).find(c=>c.getAttribute('data-video')===hash);
+      if(card) selectVideo(card);
+      else selectVideo(playlistCards[0]);
+    } else selectVideo(playlistCards[0]);
+  });
+
+  // Utterances
+  function createUtterances(theme){
+    utterancesContainer.innerHTML='';
+    const script=document.createElement('script');
+    script.src='https://utteranc.es/client.js';
+    script.setAttribute('repo','CyberClassroom/cyberclassroom.github.io');
+    script.setAttribute('issue-term','title');
+    script.setAttribute('theme',theme==='light'?'github-light':'github-dark');
+    script.setAttribute('crossorigin','anonymous');
+    script.async=true;
     utterancesContainer.appendChild(script);
   }
 
-  function updateUtterancesTheme() {
+  function updateUtterancesTheme(){
     const iframe = utterancesContainer.querySelector('iframe');
-    if (!iframe) return;
-    const message = {
-      type: 'set-theme',
-      theme: document.documentElement.getAttribute('data-theme') === 'light' ? 'github-light' : 'github-dark'
-    };
-    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    if(!iframe) return;
+    iframe.contentWindow.postMessage({type:'set-theme', theme:document.documentElement.getAttribute('data-theme')==='light'?'github-light':'github-dark'}, 'https://utteranc.es');
   }
 
-  // Initialize Utterances on page load
-  document.addEventListener('DOMContentLoaded', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-    createUtterances(currentTheme);
-  });
 </script>
-
 </body>
 </html>
